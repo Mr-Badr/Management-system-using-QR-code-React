@@ -8,10 +8,17 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
+  // FIXME : Use (.env) File
   user: "root",
   host: "localhost",
   password: "startaymz1598753",
   database: "node_mysql_ts",
+
+  host: process.env.DB_HOST,
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
+    database: process.env.DB_DATABASE
 });
 
 app.post("/create", (req, res) => {
