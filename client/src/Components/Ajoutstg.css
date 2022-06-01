@@ -1,16 +1,14 @@
-.ajout__stg{
+
+.form {
+  margin: 3%;
+  border: 1px solid #577dfc;
+  border-radius: 5px;
+  padding: 20px;
   margin: 9% auto;
   max-width: 500px;
-  
-border: 1px solid #577dfc;
-border-radius: 5px;
 }
 
-.form{
-  margin: 3%;
-}
-
-.btns{
+.btns {
   display: flex;
   justify-content: space-around;
   margin: 5% 0px;
