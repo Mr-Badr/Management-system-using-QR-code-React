@@ -34,7 +34,7 @@
 }
 
 .container{
-  margin-bottom: 5%;
+  margin-bottom: 8%;
   display: flex;
   justify-content: center;
 }
@@ -46,4 +46,13 @@
 
 .card__btn{
   width: 35%;
+}
+
+.home__btn{
+  position: fixed;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin-left: 10px;
+  margin-top: -70px;
 }

@@ -52,6 +52,18 @@ app.get("/stagiaires", (req, res) => {
 });
 
 
+app.delete("/delete/:cne", (req, res) => {
+  const cne = req.params.cne;
+  db.query("DELETE FROM stagiaire WHERE cne = ?", cne, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+
 //////////////////
 
 // app.post("/insertDate/:code", (req, res) => {
@@ -132,11 +144,6 @@ app.get("/stagiaires", (req, res) => {
 //   });
 
 
-
-
-
-
-
 // // QR Reader
 // app.put("/update", (req, res) => {
 //   const id = req.body.id;
@@ -154,16 +161,6 @@ app.get("/stagiaires", (req, res) => {
 //   );
 // });
 
-// app.delete("/delete/:id", (req, res) => {
-//   const id = req.params.id;
-//   db.query("DELETE FROM employees WHERE id = ?", id, (err, result) => {
-//     if (err) {
-//       //console.log(err);
-//     } else {
-//       res.send(result);
-//     }
-//   });
-// });
 
 app.listen(3001, () => {
   console.log("Yey, your server is running on port 3001");

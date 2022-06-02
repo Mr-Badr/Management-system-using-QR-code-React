@@ -14,6 +14,7 @@ import {
   Row,
 } from "react-bootstrap";
 import "./Ajoutstg.css";
+import { Link } from "react-router-dom";
 
 function Ajoutstg() {
   const [cne, setCne] = useState("");
@@ -48,13 +49,32 @@ function Ajoutstg() {
     window.scrollTo(100, 500);
     Axios.get("http://localhost:3001/stagiaires").then((response) => {
       setStagiaireList(response.data);
-      console.log(response);
     });
   };
 
-  return (
+  const getStagiairesAfterDelete = () => {
+    Axios.get("http://localhost:3001/stagiaires").then((response) => {
+      setStagiaireList(response.data);
+    });
+  };
+
+  const deleteStagiaire = (cne) => {
     
+    Axios.delete(`http://localhost:3001/delete/${cne}`).then((response) => {
+      setStagiaireList(
+        stagiaireList.filter((val) => {
+          return val.cne !== cne;
+        })
+      );
+    });
+      
+  };
+
+  return (
     <div className='ajout__stg'>
+      <Link to="/">
+      <Button className="home__btn AiFillHome"><b>H</b></Button>
+      </Link>
       <Form className='form'>
         <Form.Group className='mb-3' controlId='formBasicEmail'>
           <Form.Label>CNE *</Form.Label>
@@ -99,41 +119,68 @@ function Ajoutstg() {
           </Button>
         </Form.Group>
       </Form>
-      <div className="show__btn">
+      <div className='show__btn'>
         <Button variant='outline-primary' type='submit' onClick={getStagiaires}>
-        ⮟ Spectacle Stagiaires ⮟
-      </Button>
+          ⮟ Spectacle Stagiaires ⮟
+        </Button>
       </div>
-      
-      <div className='cards'>
-    {stagiaireList.map((val, key) => {
-      return (
-        <Container>
-          <Row>
-            <Col className="col">
-              <Card style={{ width: "18rem"}}>
-                <QRCode style={{margin:"15px auto"}} value= {""+val.CNE}/>
-                <ListGroup className='list-group-flush'>
-                  <ListGroupItem>Code de stagiaire : <strong><u>{val.CNE}</u></strong></ListGroupItem>
-                  <ListGroupItem>Nom &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp; {val.NOM}</ListGroupItem>
-                  <ListGroupItem>Prenom &nbsp;&nbsp;&nbsp;:&nbsp; {val.PRENOM}</ListGroupItem>
-                  
-                  <ListGroupItem>Filiére &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;{val.FILIERE}</ListGroupItem>
-                </ListGroup>
-                <Card.Body className="card__bnts">
-                  <Button variant="outline-primary" className="card__btn">Edit</Button>
-                  <Button variant="outline-danger" className="card__btn">Delete</Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      );
-    })}
-  </div>
-      
-    </div>
 
+      <div className='cards'>
+        {stagiaireList.map((val, key) => {
+          return (
+            <Container>
+              <Row>
+                <Col className='col'>
+                  <Card style={{ width: "18rem" }}>
+                    <QRCode
+                      style={{ margin: "15px auto" }}
+                      value={"" + val.CNE}
+                    />
+                    <ListGroup className='list-group-flush'>
+                      <ListGroupItem>
+                        Code de stagiaire &nbsp;:&nbsp;{" "}
+                        <strong>
+                          <u>{val.CNE}</u>
+                        </strong>
+                      </ListGroupItem>
+                      <ListGroupItem>
+                        Nom &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;{" "}
+                        {val.NOM}
+                      </ListGroupItem>
+                      <ListGroupItem>
+                        Prenom &nbsp;&nbsp;&nbsp;:&nbsp; {val.PRENOM}
+                      </ListGroupItem>
+
+                      <ListGroupItem>
+                        Filiére &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;
+                        {val.FILIERE}
+                      </ListGroupItem>
+                    </ListGroup>
+                    <Card.Body className='card__bnts'>
+                      <Button variant='outline-primary' className='card__btn'>
+                        Edit
+                      </Button>
+
+                      <Button
+                        variant='outline-danger'
+                        className='card__btn delete__btn'
+                        onClick={() => {
+                          deleteStagiaire(val.CNE);  
+                          getStagiairesAfterDelete()
+                        }}
+                      >
+                        Delete
+                      </Button>
+
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
+            </Container>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
