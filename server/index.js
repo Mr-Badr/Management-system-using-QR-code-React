@@ -42,7 +42,7 @@ app.post("/create", (req, res) => {
 
 app.get("/stagiaires", (req, res) => {
   
-  db.query("SELECT CNE, NOM, PRENOM, FILIERE FROM stagiaire"  , (err, result) => {
+  db.query("SELECT * FROM stagiaire"  , (err, result) => {
     if (err) {
       console.log(err);
     } else {
@@ -63,34 +63,12 @@ app.delete("/delete/:cne", (req, res) => {
   });
 });
 
-
-//////////////////
-
-// app.post("/insertDate/:code", (req, res) => {
-//   code = req.params.code;
-//   db.query(
-//     "INSERT INTO employees (Entree) SELECT TO_CHAR(systimestamp,'DD-MON-YYYY HH24:MI:SS') from dual where code = ?",
-//     code,
-//     (err, result) => {
-//       if (err) {
-//         console.log(err);
-//       } else {
-//         res.send("Values Inserted");
-//       }
-//     }
-//   );
-// });
-
-
-
-
-
-// // This code working with Qr code Scanner, to Get employees from DB 
-// app.get("/getEmp/:code", (req, res) => {
-//   code = req.params.code;
-//   db.query("SELECT * FROM employees where code =?" , code , (err, result) => {
+// This code working with Qr code Scanner, to Get stagiaires from DB 
+// app.get("/getStg/:code", (req, res) => {
+//   cne = req.params.cne;
+//   db.query('SELECT NOM FROM stagiaire where cne = ? ' , cne , (err, result) => {
 //     if (err) {
-//       //console.log(err);
+//       console.log(err);
 //     } else {
 //       res.send(result);
 //     }
@@ -98,35 +76,20 @@ app.delete("/delete/:cne", (req, res) => {
 // });
 
 
-
-// app.get("/users/:code", (req, res) => {
-  
-//   db.query("SELECT Entree FROM employees where code = ? ", code , (err, result) => {
-//     if (err) {
-//       //console.log(err);
-//     } else {
-//       if (!result) {return res.send("Insert First")}  
-//       else if (result) {return end()   } else {res.send("You are Already Done!")} 
-//     }
-//   });
-// });
-
-
-//   app.put("/updateEnterDate/:code", (req, res) => {
-//     const code = req.params.code;
-//     const d = moment().format('MMMM Do YYYY, h:mm:ss a')
-//     db.query(
-//       "UPDATE employees SET Entree = ? WHERE code = ?",
-//       [d, code],
-//       (err, result) => {
-//         if (err) {
-//           console.log(err);
-//         } else {
-//           res.send(result);
-//         }
-//       }
-//     );
-//   });
+  app.put("/update/:cne", (req, res) => {
+    const cne = req.params.cne;
+    db.query(
+      "UPDATE stagiaire SET STATUS = 'present ✔' WHERE cne = ?",
+      cne,
+      (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send(result);
+        }
+      }
+    );
+  });
 
 //   app.put("/updateOutDate/:code", (req, res) => {
 //     const code = req.params.code;

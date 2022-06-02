@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Axios from "axios";
 import QRCode from "react-qr-code";
+import './Ajoutstg.css'
 
 import {
   Button,
@@ -59,7 +60,6 @@ function Ajoutstg() {
   };
 
   const deleteStagiaire = (cne) => {
-    
     Axios.delete(`http://localhost:3001/delete/${cne}`).then((response) => {
       setStagiaireList(
         stagiaireList.filter((val) => {
@@ -67,14 +67,16 @@ function Ajoutstg() {
         })
       );
     });
-      
   };
 
   return (
     <div className='ajout__stg'>
-      <Link to="/">
-      <Button className="home__btn AiFillHome"><b>H</b></Button>
+      <Link to='/'>
+        <Button className='home__button'>
+          <b>H</b>
+        </Button>
       </Link>
+      
       <Form className='form'>
         <Form.Group className='mb-3' controlId='formBasicEmail'>
           <Form.Label>CNE *</Form.Label>
@@ -165,13 +167,12 @@ function Ajoutstg() {
                         variant='outline-danger'
                         className='card__btn delete__btn'
                         onClick={() => {
-                          deleteStagiaire(val.CNE);  
-                          getStagiairesAfterDelete()
+                          deleteStagiaire(val.CNE);
+                          getStagiairesAfterDelete();
                         }}
                       >
                         Delete
                       </Button>
-
                     </Card.Body>
                   </Card>
                 </Col>
