@@ -40,6 +40,18 @@ app.post("/create", (req, res) => {
   );
 });
 
+app.get("/stagiaires", (req, res) => {
+  
+  db.query("SELECT CNE, NOM, PRENOM, FILIERE FROM stagiaire"  , (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+
 //////////////////
 
 // app.post("/insertDate/:code", (req, res) => {
@@ -59,16 +71,7 @@ app.post("/create", (req, res) => {
 
 
 
-// app.get("/employees", (req, res) => {
-  
-//   db.query("SELECT * FROM employees"  , (err, result) => {
-//     if (err) {
-//       //console.log(err);
-//     } else {
-//       res.send(result);
-//     }
-//   });
-// });
+
 
 // // This code working with Qr code Scanner, to Get employees from DB 
 // app.get("/getEmp/:code", (req, res) => {

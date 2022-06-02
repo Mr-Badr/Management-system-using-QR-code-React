@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Axios from "axios";
 import QRCode from "react-qr-code";
+
 import {
   Button,
   Card,
@@ -42,7 +43,17 @@ function Ajoutstg() {
     });
   };
 
+  // Get interns From DataBase
+  const getStagiaires = () => {
+    window.scrollTo(100, 500);
+    Axios.get("http://localhost:3001/stagiaires").then((response) => {
+      setStagiaireList(response.data);
+      console.log(response);
+    });
+  };
+
   return (
+    
     <div className='ajout__stg'>
       <Form className='form'>
         <Form.Group className='mb-3' controlId='formBasicEmail'>
@@ -86,82 +97,43 @@ function Ajoutstg() {
           <Button variant='primary' type='submit' onClick={addStagiaire}>
             Ajouter Stagiaire
           </Button>
-          <Button variant='outline-primary' type='submit'>
-            Spectacle Stagiaires
-          </Button>
         </Form.Group>
       </Form>
-
-
-      s{/* Containers */}
-      <Container>
-        <Row>
-          <Col>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant='top' src='holder.js/100px180?text=Image cap' />
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-              <ListGroup className='list-group-flush'>
-                <ListGroupItem>Cras justo odio</ListGroupItem>
-                <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-                <ListGroupItem>Vestibulum at eros</ListGroupItem>
-              </ListGroup>
-              <Card.Body>
-                <Card.Link href='#'>Card Link</Card.Link>
-                <Card.Link href='#'>Another Link</Card.Link>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant='top' src='holder.js/100px180?text=Image cap' />
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-              <ListGroup className='list-group-flush'>
-                <ListGroupItem>Cras justo odio</ListGroupItem>
-                <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-                <ListGroupItem>Vestibulum at eros</ListGroupItem>
-              </ListGroup>
-              <Card.Body>
-                <Card.Link href='#'>Card Link</Card.Link>
-                <Card.Link href='#'>Another Link</Card.Link>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant='top' src='holder.js/100px180?text=Image cap' />
-              <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-              </Card.Body>
-              <ListGroup className='list-group-flush'>
-                <ListGroupItem>Cras justo odio</ListGroupItem>
-                <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-                <ListGroupItem>Vestibulum at eros</ListGroupItem>
-              </ListGroup>
-              <Card.Body>
-                <Card.Link href='#'>Card Link</Card.Link>
-                <Card.Link href='#'>Another Link</Card.Link>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+      <div className="show__btn">
+        <Button variant='outline-primary' type='submit' onClick={getStagiaires}>
+        ⮟ Spectacle Stagiaires ⮟
+      </Button>
+      </div>
+      
+      <div className='cards'>
+    {stagiaireList.map((val, key) => {
+      return (
+        <Container>
+          <Row>
+            <Col className="col">
+              <Card style={{ width: "18rem"}}>
+                <QRCode style={{margin:"15px auto"}} value= {""+val.CNE}/>
+                <ListGroup className='list-group-flush'>
+                  <ListGroupItem>Code de stagiaire : <strong><u>{val.CNE}</u></strong></ListGroupItem>
+                  <ListGroupItem>Nom &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp; {val.NOM}</ListGroupItem>
+                  <ListGroupItem>Prenom &nbsp;&nbsp;&nbsp;:&nbsp; {val.PRENOM}</ListGroupItem>
+                  
+                  <ListGroupItem>Filiére &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;{val.FILIERE}</ListGroupItem>
+                </ListGroup>
+                <Card.Body className="card__bnts">
+                  <Button variant="outline-primary" className="card__btn">Edit</Button>
+                  <Button variant="outline-danger" className="card__btn">Delete</Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      );
+    })}
+  </div>
+      
     </div>
+
   );
 }
 
